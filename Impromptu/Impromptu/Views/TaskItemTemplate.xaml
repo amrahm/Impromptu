@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:skia="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms"
+             x:Class="Impromptu.Views.TaskItemTemplate">
+
+    <ContentView.Content>
+        <StackLayout>
+            <Grid Margin="15, 5, 15, -10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="90" />
+                </Grid.ColumnDefinitions>
+
+                <Label Text="{Binding Name}" TextColor="#84434343" FontFamily="{StaticResource Muli-Regular}"
+                       FontSize="25" Grid.Column="0" TranslationX="1" TranslationY="1.5" />
+                <Label Text="{Binding Name}" TextColor="#2A2A2A" FontFamily="{StaticResource Muli-Regular}"
+                       FontSize="25" Grid.Column="0" />
+                
+                <Label Text="{Binding TimeLeft}" TextColor="#3D434343" HorizontalTextAlignment="End"
+                       FontFamily="{StaticResource Muli-Regular}" FontSize="15" Grid.Column="2"
+                       VerticalTextAlignment="End" TranslationX="1" TranslationY="1" />
+                <Label Text="{Binding TimeLeft}" TextColor="#385882" HorizontalTextAlignment="End"
+                       FontFamily="{StaticResource Muli-Regular}" FontSize="15" Grid.Column="2"
+                       VerticalTextAlignment="End" />
+            </Grid>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="60" />
+                </Grid.RowDefinitions>
+
+                <skia:SKCanvasView x:Name="CanvasView" PaintSurface="CanvasViewPaintSurface" Grid.Row="0" Margin="0,-2,0,0"/>
+            </Grid>
+        </StackLayout>
+    </ContentView.Content>
+
+</ContentView>
