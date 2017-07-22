@@ -84,8 +84,6 @@ namespace Impromptu.Views {
 	        path.Offset(new SKPoint(hardShadowXOffset, hardShadowYOffset));
             canvas.DrawPath(path, _shadowHardPaint);
 
-
-
 	        canvas.DrawRect(emptyRect, _lightColorPaint);
             canvas.DrawRect(filledRect, _colorPaint);
 
