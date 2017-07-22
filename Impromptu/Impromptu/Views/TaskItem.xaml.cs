@@ -4,9 +4,11 @@ using SkiaSharp.Views.Forms;
 
 namespace Impromptu.Views {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class TaskItemTemplate {
-        private string _color = "e04242";
-        private string _lightColor = "ee9696";
+	public partial class TaskItem {
+        public string Color { get; set; } = "e04242";
+        public string LightColor { get; set; } = "ee9696";
+        public float PercentComplete { get; set; } = .3f;
+
         #region paints
         readonly SKPaint _colorPaint;
         readonly SKPaint _colorBlurPaint;
@@ -34,34 +36,32 @@ namespace Impromptu.Views {
             IsAntialias = true
         };
         #endregion
-        //TODO How do I get info from view model?
-        private float percent = .3f;
 
-        public TaskItemTemplate() {
+        public TaskItem() {
 			InitializeComponent ();
             #region paints
             _colorPaint = new SKPaint() {
                 Style = SKPaintStyle.Fill,
-                Color = SKColor.Parse(_color)
+                Color = SKColor.Parse(Color)
             };
             _colorBlurPaint = new SKPaint() {
                 Style = SKPaintStyle.Fill,
-                Color = SKColor.Parse(_color),
+                Color = SKColor.Parse(Color),
                 MaskFilter = SKMaskFilter.CreateBlur(SKBlurStyle.Normal, 3)
             };
             _colorExtraBlurPaint = new SKPaint() {
                 Style = SKPaintStyle.Fill,
-                Color = SKColor.Parse(_color),
+                Color = SKColor.Parse(Color),
                 MaskFilter = SKMaskFilter.CreateBlur(SKBlurStyle.Normal, 10)
             };
             _lightColorPaint = new SKPaint() {
                 Style = SKPaintStyle.Fill,
-                Color = SKColor.Parse(_lightColor)
+                Color = SKColor.Parse(LightColor)
             }; 
             #endregion
         }
 
-	    private void CanvasViewPaintSurface(object sender, SKPaintSurfaceEventArgs e) {
+        private void CanvasViewPaintSurface(object sender, SKPaintSurfaceEventArgs e) {
 	        SKSurface surface = e.Surface;
 	        SKCanvas canvas = surface.Canvas;
 	        canvas.Clear();
@@ -70,11 +70,11 @@ namespace Impromptu.Views {
 	        int height = e.Info.Height-24;
 
 	        float circleRadius = height / 2f;
-	        float circlePosX = width * percent + circleRadius;
+	        float circlePosX = width * PercentComplete + circleRadius;
 	        float circlePosY = height / 2f;
 
-            var emptyRect = new SKRect(20, 14, width - 20, height - 14);
-	        var filledRect = new SKRect(20, 14, circlePosX, height - 14);
+            SKRect emptyRect = new SKRect(20, 14, width - 20, height - 14);
+	        SKRect filledRect = new SKRect(20, 14, circlePosX, height - 14);
 
             const int hardShadowXOffset = 5;
 	        const int hardShadowYOffset = 7;

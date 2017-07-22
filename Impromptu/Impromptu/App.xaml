@@ -8,6 +8,7 @@
             <OnPlatform x:Key="Muli-Regular" x:TypeArguments="x:String">
                 <On Platform="iOS">Muli</On>
                 <On Platform="Android">Fonts/Muli-Regular.ttf#Muli</On>
+                <On Platform="WinPhone">Assets/Fonts/Muli-Regular.ttf#Muli</On>
             </OnPlatform>
         </ResourceDictionary>
     </Application.Resources>

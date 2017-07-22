@@ -7,11 +7,11 @@
   IgnorableNamespaces="uap mp">
 
   <Identity
-    Name="663f2638-5546-4979-8095-998e847ae0e5"
+    Name="e7bbb929-169e-4986-950b-89bf55f415b4"
     Publisher="CN=alt"
     Version="1.0.0.0" />
 
-  <mp:PhoneIdentity PhoneProductId="663f2638-5546-4979-8095-998e847ae0e5" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="e7bbb929-169e-4986-950b-89bf55f415b4" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>Impromptu.UWP</DisplayName>
