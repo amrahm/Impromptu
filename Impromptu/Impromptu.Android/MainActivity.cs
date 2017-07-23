@@ -6,6 +6,7 @@ using Android.Views;
 using Android.Widget;
 using Android.OS;
 using Impromptu.Droid;
+using Impromptu;
 
 namespace Impromptu.Droid {
     [Activity(Label = "Impromptu", Icon = "@drawable/icon", Theme = "@style/MainTheme", MainLauncher = true,

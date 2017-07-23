@@ -93,7 +93,7 @@ namespace Impromptu.Views {
 	        canvas.DrawCircle(circlePosX - 8, circlePosY, circleRadius - 8, _colorBlurPaint);
 	        canvas.DrawCircle(circlePosX, circlePosY, circleRadius - 16, _colorExtraBlurPaint);
             canvas.DrawOval(circlePosX - 1, circlePosY, circleRadius - 30, circleRadius - 14, _colorExtraBlurPaint);
-            canvas.DrawCircle(circlePosX, circlePosY, circleRadius - 1, _lightStroke);
+            canvas.DrawCircle(circlePosX, circlePosY, circleRadius + 1, _lightStroke);
 	        canvas.DrawCircle(circlePosX, circlePosY, circleRadius - 13, _shadowBlurOuter);
 	        canvas.DrawCircle(circlePosX, circlePosY, circleRadius - 15, _lightStroke);
         }
