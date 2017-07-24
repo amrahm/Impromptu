@@ -3,6 +3,7 @@ using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Impromptu.Views;
 
 namespace Impromptu.ViewModels {
     public class MainPageViewModel : BindableBase {
@@ -38,13 +39,21 @@ namespace Impromptu.ViewModels {
                 TodayGoal = 0.25
             }
         };
+
+//        private List<TaskItem> _taskList = new List<TaskItem> {
+//            new TaskItem() {
+//                BindingContext = new TaskItemViewModel() {
+//                    Name = "6.006 PSet",
+//                    TimeLeft = "ETA: 2 Hours",
+//                    TotalProgress = 0.0,
+//                    TodayGoal = 0.2
+//                }
+//            }
+//        };
+
         public List<TaskItemViewModel> TaskList { get => _taskList; set => SetProperty(ref _taskList, value); }
 
 
-        public MainPageViewModel() {
-            foreach(TaskItemViewModel task in _taskList) {
-                task.Name = "SIJF";
-            }
-        }
+        public MainPageViewModel() { }
     }
 }

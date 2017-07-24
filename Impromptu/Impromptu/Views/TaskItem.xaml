@@ -5,6 +5,9 @@
              xmlns:skia="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms"
              xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
              prism:ViewModelLocator.AutowireViewModel="True"
+             xmlns:viewModels="clr-namespace:Impromptu.ViewModels;assembly=Impromptu"
+             xmlns:touchHandling="clr-namespace:Impromptu.TouchHandling;assembly=Impromptu"
+             BindingContext="{Binding Source={x:Static viewModels:DesignTimeViewModelLocator.TaskItemViewModel}}"
              x:Class="Impromptu.Views.TaskItem">
 
     <ContentView.Content>
@@ -20,7 +23,7 @@
                        FontSize="25" Grid.Column="0" TranslationX="1" TranslationY="1.5" />
                 <Label Text="{Binding Name}" TextColor="#2A2A2A" FontFamily="{StaticResource Muli-Regular}"
                        FontSize="25" Grid.Column="0" />
-                
+
                 <Label Text="{Binding TimeLeft}" TextColor="#3D434343" HorizontalTextAlignment="End"
                        FontFamily="{StaticResource Muli-Regular}" FontSize="15" Grid.Column="2"
                        VerticalTextAlignment="End" TranslationX="1" TranslationY="1" />
@@ -33,7 +36,12 @@
                     <RowDefinition Height="60" />
                 </Grid.RowDefinitions>
 
-                <skia:SKCanvasView x:Name="CanvasView" PaintSurface="CanvasViewPaintSurface" Grid.Row="0" Margin="0,-2,0,0"/>
+                <skia:SKCanvasView x:Name="CanvasView" PaintSurface="CanvasViewPaintSurface" Grid.Row="0" Margin="0,-2,0,0" />
+
+                <Grid.Effects>
+                    <touchHandling:TouchEffect Capture="True" TouchAction="OnTouchEffectAction" />
+                </Grid.Effects>
+
             </Grid>
         </StackLayout>
     </ContentView.Content>

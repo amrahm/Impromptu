@@ -5,10 +5,14 @@
              xmlns:views="clr-namespace:Impromptu.Views;assembly=Impromptu"
              xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
              prism:ViewModelLocator.AutowireViewModel="True"
+             xmlns:viewModels="clr-namespace:Impromptu.ViewModels;assembly=Impromptu"
+             BindingContext="{Binding Source={x:Static viewModels:DesignTimeViewModelLocator.MainPageViewModel}}"
              x:Class="Impromptu.Views.MainPage"
              Title="Home Page"
              BackgroundColor="#FFFFFF">
 
+    <StackLayout>
+        <views:TaskItem></views:TaskItem>
     <ListView x:Name="MainScheduleList" HasUnevenRows="True" VerticalOptions="FillAndExpand"
               BackgroundColor="Transparent" ItemsSource="{Binding TaskList}">
         <ListView.Margin>
@@ -26,5 +30,6 @@
             </DataTemplate>
         </ListView.ItemTemplate>
     </ListView>
-
+    </StackLayout>
+    
 </ContentPage>

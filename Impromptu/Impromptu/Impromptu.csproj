@@ -38,6 +38,12 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TouchHandling\SKPathDraggable.cs" />
+    <Compile Include="TouchHandling\TouchActionEventArgs.cs" />
+    <Compile Include="TouchHandling\TouchActionEventHandler.cs" />
+    <Compile Include="TouchHandling\TouchActionType.cs" />
+    <Compile Include="TouchHandling\TouchEffect.cs" />
+    <Compile Include="ViewModels\DesignTimeViewModelLocator.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
