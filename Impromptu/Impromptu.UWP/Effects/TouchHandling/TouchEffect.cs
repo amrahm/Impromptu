@@ -3,18 +3,18 @@ using System.Linq;
 using Windows.UI.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Input;
-using Impromptu.TouchHandling;
+using Impromptu.Effects.TouchHandling;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.UWP;
-using TouchEffect = Impromptu.UWP.TouchHandling.TouchEffect;
+using TouchEffect = Impromptu.UWP.Effects.TouchHandling.TouchEffect;
 
 [assembly: ResolutionGroupName("XamarinDocs")]
 [assembly: ExportEffect(typeof(TouchEffect), "TouchEffect")]
 
-namespace Impromptu.UWP.TouchHandling {
+namespace Impromptu.UWP.Effects.TouchHandling {
     public class TouchEffect : PlatformEffect {
         FrameworkElement frameworkElement;
-        Impromptu.TouchHandling.TouchEffect effect;
+        Impromptu.Effects.TouchHandling.TouchEffect effect;
         Action<Element, TouchActionEventArgs> onTouchAction;
 
         protected override void OnAttached() {
@@ -22,7 +22,7 @@ namespace Impromptu.UWP.TouchHandling {
             frameworkElement = Control == null ? Container : Control;
 
             // Get access to the TouchEffect class in the PCL
-            effect = (Impromptu.TouchHandling.TouchEffect)Element.Effects.FirstOrDefault(e => e is Impromptu.TouchHandling.TouchEffect);
+            effect = (Impromptu.Effects.TouchHandling.TouchEffect)Element.Effects.FirstOrDefault(e => e is Impromptu.Effects.TouchHandling.TouchEffect);
 
             if(effect != null && frameworkElement != null) {
                 // Save the method to call on touch events

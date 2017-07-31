@@ -1,4 +1,4 @@
-﻿namespace Impromptu.TouchHandling
+﻿namespace Impromptu.Effects.TouchHandling
 {
     public enum TouchActionType
     {

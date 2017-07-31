@@ -1,13 +1,16 @@
 ﻿using SkiaSharp;
-using SkiaSharp.Views.Forms;
 
-namespace Impromptu.TouchHandling {
+namespace Impromptu.Effects.TouchHandling {
     class SKPathDraggable : SKPath {
         public bool IsBeingDragged { get; set; }
         public long TouchId { get; private set; }
-        public SKPoint OldPosition { get; set; } = new SKPoint(0, 0);
+        private SKPoint OldPosition { get; set; }
         public bool IsDraggableX { get; set; } = true;
         public bool IsDraggableY { get; set; } = true;
+        public float OffsetX { get; set; }
+        public float OffsetY { get; set; }
+        private float _oldOffsetX;
+        private float _oldOffsetY;
 
         public void OnTouchEffectAction(SKPoint point, TouchActionEventArgs args) {
             switch(args.Type) {
@@ -21,8 +24,12 @@ namespace Impromptu.TouchHandling {
 
                 case TouchActionType.Moved:
                     if(IsBeingDragged && TouchId == args.Id) {
-                        Offset(IsDraggableX ? point.X - OldPosition.X : 0, IsDraggableY ? point.Y - OldPosition.Y : 0);
+                        float dx = IsDraggableX ? point.X - OldPosition.X : 0;
+                        float dy = IsDraggableY ? point.Y - OldPosition.Y : 0;
+                        OffsetX += dx;
+                        OffsetY += dy;
                         OldPosition = point;
+                        UpdatePosition();
                     }
                     break;
 
@@ -32,6 +39,12 @@ namespace Impromptu.TouchHandling {
                     }
                     break;
             }
+        }
+
+        public void UpdatePosition() {
+            Offset(OffsetX - _oldOffsetX, OffsetY - _oldOffsetY);
+            _oldOffsetX = OffsetX;
+            _oldOffsetY = OffsetY;
         }
     }
 }

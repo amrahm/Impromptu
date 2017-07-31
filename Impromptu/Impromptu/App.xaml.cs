@@ -1,6 +1,5 @@
 ﻿using Impromptu.Views;
 using Prism.Unity;
-using Xamarin.Forms;
 
 namespace Impromptu {
     public partial class App {

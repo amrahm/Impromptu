@@ -1,7 +1,7 @@
 ﻿using System;
 using Xamarin.Forms;
 
-namespace Impromptu.TouchHandling
+namespace Impromptu.Effects.TouchHandling
 {
     public class TouchActionEventArgs : EventArgs
     {
@@ -10,15 +10,12 @@ namespace Impromptu.TouchHandling
             Id = id;
             Type = type;
             Location = location;
-            IsInContact = isInContact;
         }
 
-        public long Id { private set; get; }
+        public long Id { get; }
 
-        public TouchActionType Type { private set; get; }
+        public TouchActionType Type { get; }
 
-        public Point Location { private set; get; }
-
-        public bool IsInContact { private set; get; }
+        public Point Location { get; }
     }
 }

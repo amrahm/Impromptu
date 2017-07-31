@@ -3,10 +3,8 @@
 <ContentView xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:skia="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms"
-             xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
-             prism:ViewModelLocator.AutowireViewModel="True"
              xmlns:viewModels="clr-namespace:Impromptu.ViewModels;assembly=Impromptu"
-             xmlns:touchHandling="clr-namespace:Impromptu.TouchHandling;assembly=Impromptu"
+             xmlns:touchHandling="clr-namespace:Impromptu.Effects.TouchHandling;assembly=Impromptu"
              BindingContext="{Binding Source={x:Static viewModels:DesignTimeViewModelLocator.TaskItemViewModel}}"
              x:Class="Impromptu.Views.TaskItem">
 
@@ -36,7 +34,7 @@
                     <RowDefinition Height="60" />
                 </Grid.RowDefinitions>
 
-                <skia:SKCanvasView x:Name="CanvasView" PaintSurface="CanvasViewPaintSurface" Grid.Row="0" Margin="0,-2,0,0" />
+                <skia:SKCanvasView x:Name="CanvasView" PaintSurface="CanvasViewPaintSurface" Grid.Row="0" Margin="10,-2,10,0" />
 
                 <Grid.Effects>
                     <touchHandling:TouchEffect Capture="True" TouchAction="OnTouchEffectAction" />

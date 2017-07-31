@@ -2,58 +2,55 @@
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Impromptu.Views;
+using PropertyChanged;
+using Xamarin.Forms;
 
 namespace Impromptu.ViewModels {
+    [AddINotifyPropertyChangedInterface]
     public class MainPageViewModel : BindableBase {
-        private List<TaskItemViewModel> _taskList = new List<TaskItemViewModel> {
+        public List<TaskSlider> TaskList { get; set; } = new List<TaskSlider> {
             new TaskItemViewModel {
                 Name = "Study for 6.042",
                 TimeLeft = "ETA: 2 Hours",
-                TotalProgress = .25,
-                TodayGoal = .35
+                TotalProgress = 0f,
+                TodayGoal = .35f,
+                FilledColor = Color.FromHex("E04242"),
+                EmptyColor = Color.FromHex("EE9696")
             },
             new TaskItemViewModel {
                 Name = "6.031 PSet",
                 TimeLeft = "ETA: 1 Hour",
-                TotalProgress = .5,
-                TodayGoal = 0.75
+                TotalProgress = .5f,
+                TodayGoal = 0.75f,
+                FilledColor = Color.FromHex("de7b4a"),
+                EmptyColor = Color.FromHex("edb79c")
             },
             new TaskItemViewModel {
                 Name = "Story Two Rewrite",
                 TimeLeft = "ETA: 2 Hours",
-                TotalProgress = 0.0,
-                TodayGoal = .1
-            },
-            new TaskItemViewModel {
-                Name = "6.006 PSet",
-                TimeLeft = "ETA: 2 Hours",
-                TotalProgress = 0.0,
-                TodayGoal = 0.2
-            },
-            new TaskItemViewModel {
-                Name = "Story Two Rewrite But Really Long",
-                TimeLeft = "ETA: 3 Hours",
-                TotalProgress = 0.1,
-                TodayGoal = 0.25
+                TotalProgress = 1.0f,
+                TodayGoal = .1f,
+                FilledColor = Color.FromHex("dead4a"),
+                EmptyColor = Color.FromHex("f0daad")
             }
         };
+        public Color BGColor { get; set; } = Color.FromHex("#FFFFFF");
 
-//        private List<TaskItem> _taskList = new List<TaskItem> {
-//            new TaskItem() {
-//                BindingContext = new TaskItemViewModel() {
-//                    Name = "6.006 PSet",
-//                    TimeLeft = "ETA: 2 Hours",
-//                    TotalProgress = 0.0,
-//                    TodayGoal = 0.2
-//                }
-//            }
-//        };
-
-        public List<TaskItemViewModel> TaskList { get => _taskList; set => SetProperty(ref _taskList, value); }
-
-
-        public MainPageViewModel() { }
+        public MainPageViewModel() {
+            Device.StartTimer(TimeSpan.FromSeconds(4), () => {
+                var rng = new Random();
+//                BGColor = Color.FromRgb(rng.NextDouble(), rng.NextDouble(), rng.NextDouble());
+                foreach(var task in TaskList) {
+//                    task.TotalProgress = (float)rng.NextDouble();
+                    task.TimeLeft = "ETA: " + rng.Next(0, 9) + " Hours";
+//                    task.FilledColor = Color.FromRgb(rng.NextDouble(), rng.NextDouble(), rng.NextDouble());
+//                    task.EmptyColor = Color.FromRgb(rng.NextDouble(), rng.NextDouble(), rng.NextDouble());
+                }
+                return true;
+            });
+        }
     }
 }
