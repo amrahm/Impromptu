@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<StackLayout xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:skia="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms"
+             xmlns:touchHandling="clr-namespace:Impromptu.Effects.TouchHandling;assembly=Impromptu"
+             x:Class="Impromptu.Views.DayBlock">
+
+    <Grid Margin="15, 0, 0, 0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <Label x:Name="DayNameLabel" TextColor="#44434343" FontFamily="{StaticResource Muli-Regular}"
+               FontSize="50" Grid.Column="0" TranslationX="2" TranslationY="2" VerticalOptions="Center"
+               VerticalTextAlignment="Center" />
+        <Label BindingContext="{x:Reference DayNameLabel}" Text="{Binding Path=Text}" TextColor="#2D6693"
+               FontFamily="{StaticResource Muli-Regular}" FontSize="50" Grid.Column="0" VerticalOptions="Center"
+               VerticalTextAlignment="Center" />
+
+        <AbsoluteLayout Grid.Column="2" VerticalOptions="Center" HeightRequest="50" Margin="0,0,0,-5">
+            <ContentView AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All">
+
+                <skia:SKCanvasView x:Name="CanvasView" PaintSurface="CanvasViewPaintSurface" Margin="0" />
+
+                <ContentView.Effects>
+                    <touchHandling:TouchEffect Capture="True" TouchAction="OnTouchEffectAction" />
+                </ContentView.Effects>
+
+            </ContentView>
+
+            <StackLayout AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All">
+                <Label Text="Time Remaining:" TextColor="#172A43"
+                       HorizontalTextAlignment="Center" FontFamily="{StaticResource Muli-Regular}" FontSize="15"
+                       VerticalTextAlignment="Center" Margin="6,0,6,-8" />
+                <Label x:Name="TimeRemainingLabel" TextColor="#172A43"
+                       HorizontalTextAlignment="Center" FontFamily="{StaticResource Muli-Regular}" FontSize="20"
+                       VerticalTextAlignment="Center" Margin="6,0,6,0" />
+            </StackLayout>
+        </AbsoluteLayout>
+    </Grid>
+    <BoxView Color="#60000000" HeightRequest="1" HorizontalOptions="FillAndExpand" Margin="0,-8,0,0" />
+</StackLayout>

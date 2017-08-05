@@ -1,56 +1,60 @@
-﻿using Prism.Commands;
+﻿using Impromptu.Views;
 using Prism.Mvvm;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using Impromptu.Views;
 using PropertyChanged;
+using System.Collections.Generic;
 using Xamarin.Forms;
 
 namespace Impromptu.ViewModels {
     [AddINotifyPropertyChangedInterface]
     public class MainPageViewModel : BindableBase {
         public List<TaskSlider> TaskList { get; set; } = new List<TaskSlider> {
-            new TaskItemViewModel {
+            new TaskSlider {
                 Name = "Study for 6.042",
-                TimeLeft = "ETA: 2 Hours",
+                TimeLeft = 1f,
                 TotalProgress = 0f,
                 TodayGoal = .35f,
-                FilledColor = Color.FromHex("E04242"),
-                EmptyColor = Color.FromHex("EE9696")
+                Priority = 0,
+                Day = 0
             },
-            new TaskItemViewModel {
+            new TaskSlider {
                 Name = "6.031 PSet",
-                TimeLeft = "ETA: 1 Hour",
+                TimeLeft = 2f,
                 TotalProgress = .5f,
                 TodayGoal = 0.75f,
-                FilledColor = Color.FromHex("de7b4a"),
-                EmptyColor = Color.FromHex("edb79c")
+                Priority = 1,
+                Day = 0
             },
-            new TaskItemViewModel {
+            new TaskSlider {
                 Name = "Story Two Rewrite",
-                TimeLeft = "ETA: 2 Hours",
+                TimeLeft = 3.5f,
                 TotalProgress = 1.0f,
                 TodayGoal = .1f,
-                FilledColor = Color.FromHex("dead4a"),
-                EmptyColor = Color.FromHex("f0daad")
+                Priority = 2,
+                Day = 0
+            },
+            new TaskSlider {
+                Name = "A Fourth Task",
+                TimeLeft = 1.2f,
+                TotalProgress = 0.7f,
+                TodayGoal = .9f,
+                Priority = 3,
+                Day = 0
             }
         };
-        public Color BGColor { get; set; } = Color.FromHex("#FFFFFF");
+        public Color BGColor { get; set; } = Color.FromHex("#ffffff");
 
-        public MainPageViewModel() {
-            Device.StartTimer(TimeSpan.FromSeconds(4), () => {
-                var rng = new Random();
+//        public MainPageViewModel() {
+//            Device.StartTimer(TimeSpan.FromSeconds(4), () => {
+//                var rng = new Random();
 //                BGColor = Color.FromRgb(rng.NextDouble(), rng.NextDouble(), rng.NextDouble());
-                foreach(var task in TaskList) {
+//                foreach(var task in TaskList) {
 //                    task.TotalProgress = (float)rng.NextDouble();
-                    task.TimeLeft = "ETA: " + rng.Next(0, 9) + " Hours";
+//                    task.TimeLeft = (float) rng.NextDouble() * 9;
 //                    task.FilledColor = Color.FromRgb(rng.NextDouble(), rng.NextDouble(), rng.NextDouble());
 //                    task.EmptyColor = Color.FromRgb(rng.NextDouble(), rng.NextDouble(), rng.NextDouble());
-                }
-                return true;
-            });
-        }
+//                }
+//                return true;
+//            });
+//        }
     }
 }

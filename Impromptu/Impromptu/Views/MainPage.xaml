@@ -10,25 +10,15 @@
              Title="Home Page"
              BackgroundColor="{Binding BGColor}">
 
-    <ListView x:Name="MainScheduleList" HasUnevenRows="True" VerticalOptions="FillAndExpand"
-              BackgroundColor="Transparent" ItemsSource="{Binding TaskList}">
-        <ListView.Margin>
+    <StackLayout x:Name="MainScheduleList" VerticalOptions="FillAndExpand"
+              BackgroundColor="Transparent" >
+        <StackLayout.Margin>
             <OnPlatform x:TypeArguments="Thickness">
                 <On Platform="iOS">0, 20, 0, 0</On>
                 <On Platform="Android">0</On>
                 <On Platform="WinPhone">0</On>
             </OnPlatform>
-        </ListView.Margin>
-        <ListView.ItemTemplate>
-            <DataTemplate>
-                <ViewCell>
-                    <views:TaskItem />
-                </ViewCell>
-            </DataTemplate>
-        </ListView.ItemTemplate>
-        <ListView.Effects>
-            <effects:NoScrollListViewEffect />
-        </ListView.Effects>
-    </ListView>
+        </StackLayout.Margin>
+    </StackLayout>
 
 </ContentPage>
