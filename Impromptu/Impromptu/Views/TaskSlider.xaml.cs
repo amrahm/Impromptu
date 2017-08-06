@@ -19,11 +19,13 @@ namespace Impromptu.Views {
         public float TodayGoal { get; set; }
         public Color FilledColor { get; set; }
         public Color EmptyColor { get; set; }
+        private bool _shouldRedrawCircle = true;
         private SKPathDraggable _circlePath;
         private int _height;
         private int _width;
         private float _dip;
         private float _circleRadius;
+        private SKSurface _circleSurface;
         #endregion
 
         #region paints
@@ -71,6 +73,7 @@ namespace Impromptu.Views {
             Color = SKColor.Parse("#30000000"),
             IsAntialias = true
         };
+        private SKRect _sliderBox;
         #endregion
 
         public TaskSlider() {
@@ -81,7 +84,7 @@ namespace Impromptu.Views {
                     case nameof(Day):
                         switch(Priority) {
                             case -1:
-                                break;
+                                throw new ArgumentException("Priority not set for task " + Name);
                             case 0:
                                 FilledColor = Color.FromHex("e04242");
                                 EmptyColor = Color.FromHex("ee9696");
@@ -103,23 +106,26 @@ namespace Impromptu.Views {
                         Margin = new Thickness(sideMargin, -3);
                         double barHeight = DefaultSliderHeight - (Priority * 3 + Day * 5);
                         SliderView.HeightRequest = barHeight;
+                        _shouldRedrawCircle = true;
+                        CanvasView.InvalidateSurface();
                         break;
                     case nameof(TotalProgress):
-                        Debug.WriteLine("totalProgress: " + TotalProgress);
                         CanvasView.InvalidateSurface();
                         break;
                     case nameof(FilledColor):
                         _colorPaint.Color = FilledColor.ToSKColor();
                         _colorBlurPaint.Color = FilledColor.ToSKColor();
                         _colorExtraBlurPaint.Color = FilledColor.ToSKColor();
+                        _shouldRedrawCircle = true;
                         CanvasView.InvalidateSurface();
                         break;
                     case nameof(EmptyColor):
                         _lightColorPaint.Color = EmptyColor.ToSKColor();
+                        _shouldRedrawCircle = true;
                         CanvasView.InvalidateSurface();
                         break;
                     case nameof(TimeLeft):
-                        ETALabel.Text = "ETA: " + TimeLeft.ToString("N1") + " hour" + (Math.Abs(TimeLeft - 1) < 0.01f ? "" : "s") + " left";
+                        ETALabel.Text = "ETA: " + TimeLeft.ToString("#.#") + " hour" + (TimeLeft.ToString("#.#") == "1" ? "" : "s");
                         break;
                     case nameof(Name):
                         NameLabel.Text = Name;
@@ -130,9 +136,10 @@ namespace Impromptu.Views {
 
         private void OnTouchEffectAction(object sender, TouchActionEventArgs args) {
             SKPoint point = new SKPoint((float)(CanvasView.CanvasSize.Width * args.Location.X / CanvasView.Width),
-                                        (float)(CanvasView.CanvasSize.Height * args.Location.Y / CanvasView.Height));
+                (float)(CanvasView.CanvasSize.Height * args.Location.Y / CanvasView.Height));
             _circlePath.OnTouchEffectAction(point, args);
-            float totalProgress = (_circlePath.OffsetX - 2) / (_width - 2 * _circleRadius - 2);
+            //Solve the _circlePath.OffsetX equation below for TotalProgress
+            float totalProgress = (_circlePath.OffsetX - 3 * _dip) / (_width - 2 * _circleRadius - 3 * _dip);
             TotalProgress = Math.Max(0, Math.Min(1, totalProgress));
             CanvasView.InvalidateSurface();
         }
@@ -149,44 +156,51 @@ namespace Impromptu.Views {
             _circleRadius = _height / 2f;
             float circlePosY = _height / 2f;
 
-            if(_circlePath == null) {
+            if(_shouldRedrawCircle) {
+                _shouldRedrawCircle = false;
                 _circlePath = new SKPathDraggable {IsDraggableY = false};
-                _circlePath.AddCircle(_circleRadius, circlePosY, _circleRadius);
+                float circleOffset = _circleRadius + 5 * _dip;
+                _circlePath.AddCircle(circleOffset, circleOffset, _circleRadius);
 
                 _lightStroke.StrokeWidth = 2 * _dip;
                 _colorBlurPaint.MaskFilter = SKMaskFilter.CreateBlur(SKBlurStyle.Normal, 3 * _dip);
                 _colorExtraBlurPaint.MaskFilter = SKMaskFilter.CreateBlur(SKBlurStyle.Normal, 10 * _dip);
                 _shadowBlurPaint.MaskFilter = SKMaskFilter.CreateBlur(SKBlurStyle.Normal, 5 * _dip);
                 _shadowBlurOuter.MaskFilter = SKMaskFilter.CreateBlur(SKBlurStyle.Outer, 10 * _dip);
+                _circleSurface = SKSurface.Create(_height + 10, _height + 10, SKImageInfo.PlatformColorType, SKAlphaType.Premul);
+                SKCanvas cirCanv = _circleSurface.Canvas;
+                cirCanv.Clear();
+                cirCanv.DrawCircle(circleOffset - _circleRadius * 0.16f, circleOffset, _circleRadius - _circleRadius * 0.16f, _shadowBlurPaint);
+                cirCanv.DrawPath(_circlePath, _lightColorPaint);
+                cirCanv.DrawCircle(circleOffset - _circleRadius * 0.16f, circleOffset, _circleRadius - _circleRadius * 0.16f, _colorBlurPaint);
+                cirCanv.DrawCircle(circleOffset, circleOffset, _circleRadius * 0.7f, _colorExtraBlurPaint);
+                cirCanv.DrawOval(circleOffset - _dip, circleOffset, _circleRadius * 0.7f, _circleRadius * 0.8f, _colorExtraBlurPaint);
+                cirCanv.DrawCircle(circleOffset, circleOffset, _circleRadius + _dip, _lightStroke);
+                cirCanv.DrawCircle(circleOffset, circleOffset, _circleRadius * 0.75f - _dip, _shadowBlurOuter);
+                cirCanv.DrawCircle(circleOffset, circleOffset, _circleRadius * 0.75f, _lightStroke);
+
+                _sliderBox = new SKRect(0, 7 * _dip, _width, _height - 7 * _dip);
             }
 
-            _circlePath.OffsetX = 2 * _dip + (_width - 2 * _circleRadius - 2 * _dip) * TotalProgress;
+            _circlePath.OffsetX = 3 * _dip + (_width - 2 * _circleRadius - 3 * _dip) * TotalProgress;
             _circlePath.UpdatePosition();
             float circlePosX = _circlePath.TightBounds.MidX;
-
-            SKRect emptyRect = new SKRect(0, 7 * _dip, _width, _height - 7 * _dip);
-            SKRect filledRect = new SKRect(0, 7 * _dip, circlePosX, _height - 7 * _dip);
 
             float hardShadowXOffset = 6 * _dip;
             float hardShadowYOffset = 8 * _dip;
             SKPath path = new SKPath();
             path.AddCircle(circlePosX - 4 * _dip, circlePosY, _circleRadius);
-            path.AddRect(emptyRect);
+            path.AddRect(_sliderBox);
 
             path.Offset(new SKPoint(hardShadowXOffset, hardShadowYOffset));
             canvas.DrawPath(path, _shadowHardPaint);
 
-            canvas.DrawRect(emptyRect, _lightColorPaint);
-            canvas.DrawRect(filledRect, _colorPaint);
-            
-            canvas.DrawCircle(circlePosX - _circleRadius * 0.16f, circlePosY, _circleRadius - _circleRadius * 0.16f, _shadowBlurPaint);
-            canvas.DrawPath(_circlePath, _lightColorPaint);
-            canvas.DrawCircle(circlePosX - _circleRadius * 0.16f, circlePosY, _circleRadius - _circleRadius * 0.16f, _colorBlurPaint);
-            canvas.DrawCircle(circlePosX, circlePosY, _circleRadius * 0.7f, _colorExtraBlurPaint);
-            canvas.DrawOval(circlePosX - _dip, circlePosY, _circleRadius * 0.7f, _circleRadius * 0.8f, _colorExtraBlurPaint);
-            canvas.DrawCircle(circlePosX, circlePosY, _circleRadius + _dip, _lightStroke);
-            canvas.DrawCircle(circlePosX, circlePosY, _circleRadius * 0.75f - _dip, _shadowBlurOuter);
-            canvas.DrawCircle(circlePosX, circlePosY, _circleRadius * 0.75f, _lightStroke);
+            canvas.DrawRect(_sliderBox, _lightColorPaint);
+            _sliderBox.Right = circlePosX;
+            canvas.DrawRect(_sliderBox, _colorPaint);
+            _sliderBox.Right = _width;
+
+            canvas.DrawSurface(_circleSurface, circlePosX - _circleRadius - 10 * _dip, -5 * _dip);
         }
     }
 }

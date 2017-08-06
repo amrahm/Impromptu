@@ -2,8 +2,6 @@
 using SkiaSharp;
 using SkiaSharp.Views.Forms;
 using System;
-using System.Diagnostics;
-using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace Impromptu.Views {
@@ -32,7 +30,7 @@ namespace Impromptu.Views {
             PropertyChanged += (sender, args) => {
                 switch(args.PropertyName) {
                     case nameof(TimeLeft):
-                        TimeRemainingLabel.Text = TimeLeft.ToString("N1") + " hour" + (Math.Abs(TimeLeft - 1) < 0.01f ? "" : "s");
+                        TimeRemainingLabel.Text = TimeLeft.ToString("#.#") + " hour" + (TimeLeft.ToString("#.#") == "1" ? "" : "s");
                         break;
                     case nameof(DayName):
                         DayNameLabel.Text = DayName;
