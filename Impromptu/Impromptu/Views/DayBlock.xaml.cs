@@ -2,6 +2,8 @@
 using SkiaSharp;
 using SkiaSharp.Views.Forms;
 using System;
+using System.Collections.Generic;
+using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace Impromptu.Views {
@@ -9,6 +11,8 @@ namespace Impromptu.Views {
     public partial class DayBlock {
         public string DayName { get; set; } = "Name Not Set!";
         public float TimeLeft { get; set; }
+        public int Day { get; set; }
+        public List<TaskSlider> Tasks { get; set; }
         private int _height;
         private int _width;
 
@@ -30,10 +34,31 @@ namespace Impromptu.Views {
             PropertyChanged += (sender, args) => {
                 switch(args.PropertyName) {
                     case nameof(TimeLeft):
+                        TimeRemainingHeader.Text = Day == 0 ? "Time Remaining:" : "Total Time:";
                         TimeRemainingLabel.Text = TimeLeft.ToString("#.#") + " hour" + (TimeLeft.ToString("#.#") == "1" ? "" : "s");
                         break;
                     case nameof(DayName):
                         DayNameLabel.Text = DayName;
+                        break;
+                    case nameof(Day):
+                    case nameof(Tasks):
+                        TimeRemainingHeader.Text = Day == 0 ? "Time Remaining:" : "Total Time:";
+                        TasksLayout.Children.Clear();
+                        Constraint xConstraint = Constraint.Constant(0);
+                        TasksLayout.Children.Add(new BoxView {Color = Color.FromHex("#60000000"), HeightRequest = 1, Margin = 0},
+                            xConstraint,
+                            Constraint.Constant(0),
+                            Constraint.RelativeToParent(parent => parent.Width));
+                        if(Tasks != null) {
+                            for(int i = 0; i < Tasks.Count; i++) {
+                                TaskSlider taskSlider = Tasks[i];
+                                taskSlider.Day = Day;
+                                taskSlider.Priority = i;
+                                View last = TasksLayout.Children[TasksLayout.Children.Count - 1];
+                                double PosAfterLastYConstraint(RelativeLayout parent, View view) => view.Y + view.Height + 10;
+                                TasksLayout.Children.Add(taskSlider, xConstraint, Constraint.RelativeToView(last, PosAfterLastYConstraint));
+                            }
+                        }
                         break;
                 }
             };
@@ -41,7 +66,7 @@ namespace Impromptu.Views {
 
         private void OnTouchEffectAction(object sender, TouchActionEventArgs args) {
             SKPoint point = new SKPoint((float)(CanvasView.CanvasSize.Width * args.Location.X / CanvasView.Width),
-                                        (float)(CanvasView.CanvasSize.Height * args.Location.Y / CanvasView.Height));
+                (float)(CanvasView.CanvasSize.Height * args.Location.Y / CanvasView.Height));
             CanvasView.InvalidateSurface();
         }
 

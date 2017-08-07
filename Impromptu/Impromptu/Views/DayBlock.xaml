@@ -32,7 +32,7 @@
             </ContentView>
 
             <StackLayout AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All">
-                <Label Text="Time Remaining:" TextColor="#172A43"
+                <Label x:Name="TimeRemainingHeader" TextColor="#172A43"
                        HorizontalTextAlignment="Center" FontFamily="{StaticResource Muli-Regular}" FontSize="15"
                        VerticalTextAlignment="Center" Margin="6,0,6,-8" />
                 <Label x:Name="TimeRemainingLabel" TextColor="#172A43"
@@ -41,5 +41,5 @@
             </StackLayout>
         </AbsoluteLayout>
     </Grid>
-    <BoxView Color="#60000000" HeightRequest="1" HorizontalOptions="FillAndExpand" Margin="0,-8,0,0" />
+    <RelativeLayout x:Name="TasksLayout" HorizontalOptions="CenterAndExpand" Margin="0,-8,0,0" />
 </StackLayout>

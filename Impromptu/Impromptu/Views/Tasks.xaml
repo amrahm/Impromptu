@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:Impromptu.ViewModels;assembly=Impromptu"
+             xmlns:touchHandling="clr-namespace:Impromptu.Effects.TouchHandling;assembly=Impromptu"
+             xmlns:views="clr-namespace:Impromptu.Views;assembly=Impromptu"
+             BindingContext="{Binding Source={x:Static viewModels:DesignTimeViewModelLocator.TaskViewViewModel}}"
+             x:Class="Impromptu.Views.Tasks"
+             Title="Tasks View">
+
+    <ContentView x:Name="TaskScrollView">
+        <ContentView.Effects>
+            <touchHandling:TouchEffect Capture="True" TouchAction="OnTouchEffectAction" />
+        </ContentView.Effects>
+        <ContentView.Margin>
+            <OnPlatform x:TypeArguments="Thickness">
+                <On Platform="iOS">0, 20, 0, 0</On>
+                <On Platform="Android">0</On>
+                <On Platform="WinPhone">0</On>
+            </OnPlatform>
+        </ContentView.Margin>
+        <views:TaskList x:Name="TaskList"/>
+    </ContentView>
+</ContentPage>

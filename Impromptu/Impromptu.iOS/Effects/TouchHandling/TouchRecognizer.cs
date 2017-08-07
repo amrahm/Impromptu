@@ -35,8 +35,8 @@ namespace Impromptu.iOS.Effects.TouchHandling {
             foreach(UITouch touch in touches.Cast<UITouch>()) {
                 long id = touch.Handle.ToInt64();
                 FireEvent(this, id, TouchActionType.Pressed, touch, true);
-
-                IdToTouchDictionary.Add(id, this);
+                if(!IdToTouchDictionary.ContainsKey(id))
+                    IdToTouchDictionary.Add(id, this);
             }
 
             // Save the setting of the Capture property
@@ -54,7 +54,7 @@ namespace Impromptu.iOS.Effects.TouchHandling {
                 } else {
                     CheckForBoundaryHop(touch);
 
-                    if(IdToTouchDictionary[id] != null) {
+                    if(IdToTouchDictionary.ContainsKey(id)) {
                         FireEvent(IdToTouchDictionary[id], id, TouchActionType.Moved, touch, true);
                     }
                 }
@@ -72,7 +72,7 @@ namespace Impromptu.iOS.Effects.TouchHandling {
                 } else {
                     CheckForBoundaryHop(touch);
 
-                    if(IdToTouchDictionary[id] != null) {
+                    if(IdToTouchDictionary.ContainsKey(id)) {
                         FireEvent(IdToTouchDictionary[id], id, TouchActionType.Released, touch, false);
                     }
                 }

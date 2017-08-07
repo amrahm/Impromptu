@@ -8,11 +8,12 @@ namespace Impromptu {
         protected override void OnInitialized() {
             InitializeComponent();
 
-            NavigationService.NavigateAsync("MainPage");
+            NavigationService.NavigateAsync(nameof(Tasks));
         }
 
         protected override void RegisterTypes() {
             Container.RegisterTypeForNavigation<MainPage>();
+            Container.RegisterTypeForNavigation<Tasks>();
         }
     }
 }

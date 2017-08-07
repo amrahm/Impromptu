@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.14
+VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Impromptu.Android", "Impromptu\Impromptu.Android\Impromptu.Android.csproj", "{40302BDF-FB29-4462-BA62-F6BDE4A69716}"
 EndProject
@@ -235,6 +235,8 @@ Global
 		{E7AADC7E-955A-4685-BA0F-05FF959A7943}.Debug|ARM.Build.0 = Debug|ARM
 		{E7AADC7E-955A-4685-BA0F-05FF959A7943}.Debug|ARM.Deploy.0 = Debug|ARM
 		{E7AADC7E-955A-4685-BA0F-05FF959A7943}.Debug|iPhone.ActiveCfg = Debug|x86
+		{E7AADC7E-955A-4685-BA0F-05FF959A7943}.Debug|iPhone.Build.0 = Debug|x86
+		{E7AADC7E-955A-4685-BA0F-05FF959A7943}.Debug|iPhone.Deploy.0 = Debug|x86
 		{E7AADC7E-955A-4685-BA0F-05FF959A7943}.Debug|iPhoneSimulator.ActiveCfg = Debug|x86
 		{E7AADC7E-955A-4685-BA0F-05FF959A7943}.Debug|x64.ActiveCfg = Debug|x64
 		{E7AADC7E-955A-4685-BA0F-05FF959A7943}.Debug|x64.Build.0 = Debug|x64

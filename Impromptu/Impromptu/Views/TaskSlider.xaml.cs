@@ -13,7 +13,7 @@ namespace Impromptu.Views {
         private const int DefaultSliderHeight = 60;
         public string Name { get; set; } = "Name Not Set!";
         public int Priority { get; set; } = -1;
-        public int Day { get; set; }
+        public int Day { get; set; } = -1;
         public float TimeLeft { get; set; }
         public float TotalProgress { get; set; }
         public float TodayGoal { get; set; }
@@ -26,6 +26,7 @@ namespace Impromptu.Views {
         private float _dip;
         private float _circleRadius;
         private SKSurface _circleSurface;
+        private SKRect _sliderBox;
         #endregion
 
         #region paints
@@ -33,20 +34,10 @@ namespace Impromptu.Views {
             Style = SKPaintStyle.Fill,
             Color = SKColor.Empty
         };
-
-        private readonly SKPaint _colorBlurPaint = new SKPaint {
-            Style = SKPaintStyle.Fill,
-            Color = SKColor.Empty,
-            MaskFilter = SKMaskFilter.CreateBlur(SKBlurStyle.Normal, 3)
-        };
-        private readonly SKPaint _colorExtraBlurPaint = new SKPaint {
-            Style = SKPaintStyle.Fill,
-            Color = SKColor.Empty,
-            MaskFilter = SKMaskFilter.CreateBlur(SKBlurStyle.Normal, 10)
-        };
         private readonly SKPaint _lightColorPaint = new SKPaint {
             Style = SKPaintStyle.Fill,
-            Color = SKColor.Empty
+            Color = SKColor.Empty,
+            IsAntialias = true
         };
 
         private readonly SKPaint _lightStroke = new SKPaint {
@@ -73,7 +64,10 @@ namespace Impromptu.Views {
             Color = SKColor.Parse("#30000000"),
             IsAntialias = true
         };
-        private SKRect _sliderBox;
+        private readonly SKPaint _gray = new SKPaint {
+            Style = SKPaintStyle.Fill,
+            Color = SKColor.Parse("#9e9e9e")
+        };
         #endregion
 
         public TaskSlider() {
@@ -84,7 +78,7 @@ namespace Impromptu.Views {
                     case nameof(Day):
                         switch(Priority) {
                             case -1:
-                                throw new ArgumentException("Priority not set for task " + Name);
+                                break;
                             case 0:
                                 FilledColor = Color.FromHex("e04242");
                                 EmptyColor = Color.FromHex("ee9696");
@@ -114,8 +108,6 @@ namespace Impromptu.Views {
                         break;
                     case nameof(FilledColor):
                         _colorPaint.Color = FilledColor.ToSKColor();
-                        _colorBlurPaint.Color = FilledColor.ToSKColor();
-                        _colorExtraBlurPaint.Color = FilledColor.ToSKColor();
                         _shouldRedrawCircle = true;
                         CanvasView.InvalidateSurface();
                         break;
@@ -161,23 +153,31 @@ namespace Impromptu.Views {
                 _circlePath = new SKPathDraggable {IsDraggableY = false};
                 float circleOffset = _circleRadius + 5 * _dip;
                 _circlePath.AddCircle(circleOffset, circleOffset, _circleRadius);
-
+                
                 _lightStroke.StrokeWidth = 2 * _dip;
-                _colorBlurPaint.MaskFilter = SKMaskFilter.CreateBlur(SKBlurStyle.Normal, 3 * _dip);
-                _colorExtraBlurPaint.MaskFilter = SKMaskFilter.CreateBlur(SKBlurStyle.Normal, 10 * _dip);
                 _shadowBlurPaint.MaskFilter = SKMaskFilter.CreateBlur(SKBlurStyle.Normal, 5 * _dip);
                 _shadowBlurOuter.MaskFilter = SKMaskFilter.CreateBlur(SKBlurStyle.Outer, 10 * _dip);
                 _circleSurface = SKSurface.Create(_height + 10, _height + 10, SKImageInfo.PlatformColorType, SKAlphaType.Premul);
                 SKCanvas cirCanv = _circleSurface.Canvas;
                 cirCanv.Clear();
-                cirCanv.DrawCircle(circleOffset - _circleRadius * 0.16f, circleOffset, _circleRadius - _circleRadius * 0.16f, _shadowBlurPaint);
+                cirCanv.DrawCircle(circleOffset - _circleRadius * 0.16f, circleOffset, _circleRadius - _circleRadius * 0.16f,
+                    _shadowBlurPaint);
                 cirCanv.DrawPath(_circlePath, _lightColorPaint);
-                cirCanv.DrawCircle(circleOffset - _circleRadius * 0.16f, circleOffset, _circleRadius - _circleRadius * 0.16f, _colorBlurPaint);
-                cirCanv.DrawCircle(circleOffset, circleOffset, _circleRadius * 0.7f, _colorExtraBlurPaint);
-                cirCanv.DrawOval(circleOffset - _dip, circleOffset, _circleRadius * 0.7f, _circleRadius * 0.8f, _colorExtraBlurPaint);
+
+                _colorPaint.MaskFilter = SKMaskFilter.CreateBlur(SKBlurStyle.Normal, 3 * _dip);
+                cirCanv.DrawOval(circleOffset - _circleRadius * 0.24f, circleOffset, _circleRadius - _circleRadius * 0.26f,
+                    _circleRadius - _circleRadius * 0.14f, _colorPaint);
+
+                _colorPaint.MaskFilter = SKMaskFilter.CreateBlur(SKBlurStyle.Normal, 8 * _dip);
+                cirCanv.DrawOval(circleOffset - _dip, circleOffset, _circleRadius * 0.8f, _circleRadius * 0.9f, _colorPaint);
+
+                _colorPaint.MaskFilter = SKMaskFilter.CreateBlur(SKBlurStyle.Normal, 12 * _dip);
+                cirCanv.DrawCircle(circleOffset, circleOffset, _circleRadius * 0.5f, _colorPaint);
                 cirCanv.DrawCircle(circleOffset, circleOffset, _circleRadius + _dip, _lightStroke);
                 cirCanv.DrawCircle(circleOffset, circleOffset, _circleRadius * 0.75f - _dip, _shadowBlurOuter);
                 cirCanv.DrawCircle(circleOffset, circleOffset, _circleRadius * 0.75f, _lightStroke);
+
+                _colorPaint.MaskFilter = null;
 
                 _sliderBox = new SKRect(0, 7 * _dip, _width, _height - 7 * _dip);
             }
@@ -189,13 +189,16 @@ namespace Impromptu.Views {
             float hardShadowXOffset = 6 * _dip;
             float hardShadowYOffset = 8 * _dip;
             SKPath path = new SKPath();
-            path.AddCircle(circlePosX - 4 * _dip, circlePosY, _circleRadius);
+            path.AddCircle(circlePosX - 5 * _dip, circlePosY, _circleRadius);
             path.AddRect(_sliderBox);
 
             path.Offset(new SKPoint(hardShadowXOffset, hardShadowYOffset));
             canvas.DrawPath(path, _shadowHardPaint);
 
             canvas.DrawRect(_sliderBox, _lightColorPaint);
+
+            float todayPos = 5 * _dip + (_width - _circleRadius) * TodayGoal;
+            canvas.DrawRect(new SKRect(todayPos, 7 * _dip, todayPos + 6 * _dip, _height - 7 * _dip), _gray);
             _sliderBox.Right = circlePosX;
             canvas.DrawRect(_sliderBox, _colorPaint);
             _sliderBox.Right = _width;
