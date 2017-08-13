@@ -9,17 +9,14 @@
              x:Class="Impromptu.Views.Tasks"
              Title="Tasks View">
 
-    <ContentView x:Name="TaskScrollView">
-        <ContentView.Effects>
-            <touchHandling:TouchEffect Capture="True" TouchAction="OnTouchEffectAction" />
-        </ContentView.Effects>
-        <ContentView.Margin>
+    <ScrollView x:Name="TaskScrollView" InputTransparent="True">
+        <ScrollView.Margin>
             <OnPlatform x:TypeArguments="Thickness">
                 <On Platform="iOS">0, 20, 0, 0</On>
                 <On Platform="Android">0</On>
                 <On Platform="WinPhone">0</On>
             </OnPlatform>
-        </ContentView.Margin>
+        </ScrollView.Margin>
         <views:TaskList x:Name="TaskList"/>
-    </ContentView>
+    </ScrollView>
 </ContentPage>

@@ -10,13 +10,24 @@ namespace Impromptu.Droid.Views {
     public class TaskScrollViewRenderer : ScrollViewRenderer {
         protected override void OnElementChanged(VisualElementChangedEventArgs e) {
             base.OnElementChanged(e);
+            TaskScrollView taskScrollView = (TaskScrollView)e.NewElement;
 
-            VerticalScrollBarEnabled = ((TaskScrollView)e.NewElement).IsVerticalScrollbarEnabled;
-            HorizontalScrollBarEnabled = ((TaskScrollView)e.NewElement).IsHorizontalScrollbarEnabled;
+            taskScrollView.InputTransparent = !taskScrollView.IsScrollEnabled;
+            VerticalScrollBarEnabled = taskScrollView.IsVerticalScrollbarEnabled;
+            HorizontalScrollBarEnabled = taskScrollView.IsHorizontalScrollbarEnabled;
 
-            if(((TaskScrollView)e.NewElement).IsNativeBouncyEffectEnabled) {
+            if(taskScrollView.IsNativeBouncyEffectEnabled) {
                 OverScrollMode = OverScrollMode.Always;
             }
+
+
+            taskScrollView.PropertyChanged += (sender, args) => {
+                switch(args.PropertyName) {
+                    case nameof(taskScrollView.IsScrollEnabled):
+                        taskScrollView.InputTransparent = !taskScrollView.IsScrollEnabled;
+                        break;
+                }
+            };
         }
     }
 }
