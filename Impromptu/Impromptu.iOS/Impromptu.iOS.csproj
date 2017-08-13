@@ -96,6 +96,7 @@
     <Compile Include="AppDelegate.cs" />
     <Compile Include="Effects\TouchHandling\TouchEffect.cs" />
     <Compile Include="Effects\TouchHandling\TouchRecognizer.cs" />
+    <Compile Include="Views\TaskScrollViewRenderer.cs" />
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" />
     <Compile Include="Properties\AssemblyInfo.cs" />

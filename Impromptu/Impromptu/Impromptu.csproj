@@ -47,6 +47,7 @@
     <Compile Include="ViewModels\DesignTimeViewModelLocator.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
     <Compile Include="ViewModels\TasksViewModel.cs" />
+    <Compile Include="Views\TaskScrollView.cs" />
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
