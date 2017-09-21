@@ -9,6 +9,11 @@ using Xamarin.Forms.Xaml;
 namespace Impromptu.Views {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class DayBlock {
+        public event EventHandler<Boolean> TouchedEvent;
+        public void WasTouched(object sender, Boolean shouldPassThrough) { //Subscribe this method to all slider touched events
+            TouchedEvent?.Invoke(this, shouldPassThrough);
+        }
+
         public string DayName { get; set; } = "Name Not Set!";
         public float TimeLeft { get; set; }
         public int Day { get; set; }
@@ -68,6 +73,7 @@ namespace Impromptu.Views {
             SKPoint point = new SKPoint((float)(CanvasView.CanvasSize.Width * args.Location.X / CanvasView.Width),
                 (float)(CanvasView.CanvasSize.Height * args.Location.Y / CanvasView.Height));
             CanvasView.InvalidateSurface();
+            WasTouched(this, false); //Might need to change boolean in the future
         }
 
         private void CanvasViewPaintSurface(object sender, SKPaintSurfaceEventArgs e) {

@@ -1,10 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Impromptu.Effects.TouchHandling;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -12,6 +7,10 @@ namespace Impromptu.Views {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class TaskList {
         public List<DayBlock> DayList { get; set; }
+        public event EventHandler<Boolean> TouchedEvent;
+        public void WasTouched(object sender, Boolean shouldPassThrough) { //Subscribe this method to all dayblock touched events
+            TouchedEvent?.Invoke(this, shouldPassThrough);
+        }
 
         public TaskList() {
             InitializeComponent();

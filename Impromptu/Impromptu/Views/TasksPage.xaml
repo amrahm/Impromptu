@@ -3,10 +3,9 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewModels="clr-namespace:Impromptu.ViewModels;assembly=Impromptu"
-             xmlns:touchHandling="clr-namespace:Impromptu.Effects.TouchHandling;assembly=Impromptu"
              xmlns:views="clr-namespace:Impromptu.Views;assembly=Impromptu"
              BindingContext="{Binding Source={x:Static viewModels:DesignTimeViewModelLocator.TaskViewViewModel}}"
-             x:Class="Impromptu.Views.Tasks"
+             x:Class="Impromptu.Views.TasksPage"
              Title="Tasks View">
 
     <ScrollView x:Name="TaskScrollView" InputTransparent="True">

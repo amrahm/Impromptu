@@ -9,6 +9,10 @@ using Xamarin.Forms.Xaml;
 namespace Impromptu.Views {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class TaskSlider {
+        public event EventHandler<Boolean> TouchedEvent;
+        public void WasTouched(Boolean shouldPassThrough) {
+            TouchedEvent?.Invoke(this, shouldPassThrough);
+        }
         #region fields
         private const int DefaultSliderHeight = 60;
         public string Name { get; set; } = "Name Not Set!";
@@ -130,6 +134,8 @@ namespace Impromptu.Views {
             SKPoint point = new SKPoint((float)(CanvasView.CanvasSize.Width * args.Location.X / CanvasView.Width),
                 (float)(CanvasView.CanvasSize.Height * args.Location.Y / CanvasView.Height));
             _circlePath.OnTouchEffectAction(point, args);
+            WasTouched(_circlePath.IsBeingDragged);
+
             //Solve the _circlePath.OffsetX equation below for TotalProgress
             float totalProgress = (_circlePath.OffsetX - 3 * _dip) / (_width - 2 * _circleRadius - 3 * _dip);
             TotalProgress = Math.Max(0, Math.Min(1, totalProgress));
