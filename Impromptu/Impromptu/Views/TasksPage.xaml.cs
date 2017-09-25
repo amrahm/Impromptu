@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Diagnostics;
 using Impromptu.ViewModels;
 using Prism.Events;
 
 namespace Impromptu.Views {
     public partial class TasksPage {
-        private TasksViewModel _vm;
+        private TasksPageViewModel _vm;
 
         public TasksPage() {
             InitializeComponent();
@@ -12,10 +13,11 @@ namespace Impromptu.Views {
         }
         public void WasTouched(object sender, Boolean shouldPassThrough) {
             //Change Transparency
+            TaskScrollView.InputTransparent = shouldPassThrough;
         }
 
         protected override void OnBindingContextChanged() {
-            _vm = (TasksViewModel)BindingContext;
+            _vm = (TasksPageViewModel)BindingContext;
             TaskList.DayList = _vm.Days;
             TaskScrollView.BackgroundColor = _vm.BGColor;
         }

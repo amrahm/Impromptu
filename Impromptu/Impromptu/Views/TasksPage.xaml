@@ -4,11 +4,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewModels="clr-namespace:Impromptu.ViewModels;assembly=Impromptu"
              xmlns:views="clr-namespace:Impromptu.Views;assembly=Impromptu"
-             BindingContext="{Binding Source={x:Static viewModels:DesignTimeViewModelLocator.TaskViewViewModel}}"
+             BindingContext="{Binding Source={x:Static viewModels:DesignTimeViewModelLocator.TaskPageViewViewModel}}"
              x:Class="Impromptu.Views.TasksPage"
              Title="Tasks View">
 
-    <ScrollView x:Name="TaskScrollView" InputTransparent="True">
+    <ScrollView x:Name="TaskScrollView">
         <ScrollView.Margin>
             <OnPlatform x:TypeArguments="Thickness">
                 <On Platform="iOS">0, 20, 0, 0</On>
@@ -16,6 +16,6 @@
                 <On Platform="WinPhone">0</On>
             </OnPlatform>
         </ScrollView.Margin>
-        <views:TaskList x:Name="TaskList"/>
+        <views:TasksList x:Name="TaskList"/>
     </ScrollView>
 </ContentPage>

@@ -2,7 +2,7 @@
 
 <ContentView xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Impromptu.Views.TaskList"
+             x:Class="Impromptu.Views.TasksList"
              BackgroundColor="Transparent">
 
     <RelativeLayout x:Name="MainScheduleList" HorizontalOptions="CenterAndExpand" />

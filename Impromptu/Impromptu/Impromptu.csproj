@@ -45,7 +45,7 @@
     <Compile Include="Effects\TouchHandling\TouchEffect.cs" />
     <Compile Include="ViewModels\DesignTimeViewModelLocator.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
-    <Compile Include="ViewModels\TasksViewModel.cs" />
+    <Compile Include="ViewModels\TasksPageViewModel.cs" />
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -53,8 +53,8 @@
     <Compile Include="Views\DayBlock.xaml.cs">
       <DependentUpon>DayBlock.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\TaskList.xaml.cs">
-      <DependentUpon>TaskList.xaml</DependentUpon>
+    <Compile Include="Views\TasksList.xaml.cs">
+      <DependentUpon>TasksList.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TaskSlider.xaml.cs">
       <DependentUpon>TaskSlider.xaml</DependentUpon>
@@ -140,7 +140,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Views\TaskList.xaml">
+    <EmbeddedResource Include="Views\TasksList.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>

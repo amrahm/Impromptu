@@ -48,7 +48,11 @@ namespace Impromptu.Views {
                     case nameof(Day):
                     case nameof(Tasks):
                         TimeRemainingHeader.Text = Day == 0 ? "Time Remaining:" : "Total Time:";
-                        TasksLayout.Children.Clear();
+                        for(int i = TasksLayout.Children.Count - 1; i >= 0; i--) {
+                            //Unsub from TouchedEvent
+                            if(TasksLayout.Children[i] is TaskSlider task) task.TouchedEvent -= WasTouched;
+                            TasksLayout.Children.RemoveAt(i);
+                        }
                         Constraint xConstraint = Constraint.Constant(0);
                         TasksLayout.Children.Add(new BoxView {Color = Color.FromHex("#60000000"), HeightRequest = 1, Margin = 0},
                             xConstraint,
@@ -57,6 +61,7 @@ namespace Impromptu.Views {
                         if(Tasks != null) {
                             for(int i = 0; i < Tasks.Count; i++) {
                                 TaskSlider taskSlider = Tasks[i];
+                                taskSlider.TouchedEvent += WasTouched;
                                 taskSlider.Day = Day;
                                 taskSlider.Priority = i;
                                 View last = TasksLayout.Children[TasksLayout.Children.Count - 1];

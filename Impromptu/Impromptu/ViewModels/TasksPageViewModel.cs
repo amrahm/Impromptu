@@ -7,7 +7,7 @@ using Xamarin.Forms;
 
 namespace Impromptu.ViewModels {
     [AddINotifyPropertyChangedInterface]
-    public class TasksViewModel : BindableBase {
+    public class TasksPageViewModel : BindableBase {
         public Color BGColor { get; set; } = Color.White;
 
         public List<DayBlock> Days { get; set; } = new List<DayBlock> {
