@@ -13,7 +13,6 @@
             <OnPlatform x:TypeArguments="Thickness">
                 <On Platform="iOS">0, 20, 0, 0</On>
                 <On Platform="Android">0</On>
-                <On Platform="WinPhone">0</On>
             </OnPlatform>
         </ScrollView.Margin>
         <views:TasksList x:Name="TaskList"/>
