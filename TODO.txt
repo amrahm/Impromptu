@@ -1,0 +1,7 @@
+Input Transparent seems to disable all touch on iOS. Maybe try going back to disabling scrolling? Try on just iOS first.
+
+Have things get larger as they approach the top of the screen when scrolling.
+
+Use contractions (e.g. hrs instead of hours) before resizing, and also then remove unnecessary words (e.g. "left").
+
+OMG when you swipe up make the tiles stack behind each other maybe? Or compress until they are real close and then they leave the page?
